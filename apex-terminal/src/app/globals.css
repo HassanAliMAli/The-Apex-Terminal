@@ -2,7 +2,9 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
@@ -25,6 +27,9 @@
   --color-up: var(--up);
   --color-down: var(--down);
   --color-neutral: var(--neutral);
+  --color-info: var(--info);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
@@ -35,48 +40,68 @@
 }
 
 :root {
-  /* Apex Terminal - "Void Black" Theme */
-  --background: #050505;
-  /* True Black */
-  --foreground: #F0F0F0;
-  /* Off-white for less eye strain on black */
+  /* Apex Terminal - PRD "Navy" Theme */
 
-  --card: #0A0A0A;
-  /* Almost black */
-  --card-foreground: #F0F0F0;
+  /* Background Colors */
+  --background: #0A0E27;
+  /* Primary background (dark navy) */
+  --background-secondary: #1A1F3D;
+  /* Secondary background (blue-gray) */
+  --card: #1E233F;
+  /* Card background */
+  --card-foreground: #FFFFFF;
+  --surface: #2A314D;
+  /* Elevated surfaces */
 
-  --popover: #0A0A0A;
-  --popover-foreground: #F0F0F0;
+  /* Text Colors */
+  --foreground: #FFFFFF;
+  /* Primary text (white) */
+  --foreground-secondary: #A0A8C0;
+  /* Secondary text (light gray) */
+  --muted: #6B7280;
+  /* Muted text */
+  --muted-foreground: #9CA3AF;
+  /* Muted labels */
 
-  --primary: #00D09C;
-  /* Matrix Green as primary */
-  --primary-foreground: #000000;
+  --popover: #1E233F;
+  --popover-foreground: #FFFFFF;
 
-  --secondary: #333333;
+  /* Accent Colors */
+  --primary: #0068FF;
+  /* Primary blue (links, buttons) */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #FB8B1E;
+  /* Secondary orange (warnings, highlights) */
   --secondary-foreground: #FFFFFF;
 
-  --muted: #1A1A1A;
-  --muted-foreground: #666666;
-  /* Darker grey for low priority */
+  --accent: #2A314D;
+  --accent-foreground: #FFFFFF;
 
-  --accent: #111111;
-  --accent-foreground: #00D09C;
-
-  --destructive: #FF3333;
+  --destructive: #FF433D;
+  /* Error/destructive (same as down) */
   --destructive-foreground: #FFFFFF;
 
-  --border: #222222;
-  /* Very subtle borders */
-  --input: #111111;
-  --ring: #00D09C;
+  --border: #3A415A;
+  /* Border color */
+  --input: #2A314D;
+  /* Input background */
+  --ring: #0068FF;
 
-  --surface: #0A0A0A;
+  /* Market Colors */
   --up: #00D09C;
-  --down: #FF3333;
-  --neutral: #888888;
+  /* Green for gains */
+  --down: #FF433D;
+  /* Red for losses */
+  --neutral: #FFA028;
+  /* Orange for neutral/volume */
 
-  --radius: 0px;
-  /* Sharp edges */
+  --info: #0068FF;
+  --warning: #FFA028;
+  --success: #00D09C;
+
+  --radius: 0.5rem;
+  /* 8px default */
 
   /* Fonts */
   --font-inter: 'Inter', sans-serif;
@@ -85,29 +110,31 @@
 
 /* Enforce dark theme values */
 .dark {
-  --background: #050505;
-  --foreground: #F0F0F0;
-  --card: #0A0A0A;
-  --card-foreground: #F0F0F0;
-  --popover: #0A0A0A;
-  --popover-foreground: #F0F0F0;
-  --primary: #00D09C;
-  --primary-foreground: #000000;
-  --secondary: #333333;
+  --background: #0A0E27;
+  --background-secondary: #1A1F3D;
+  --foreground: #FFFFFF;
+  --foreground-secondary: #A0A8C0;
+  --card: #1E233F;
+  --card-foreground: #FFFFFF;
+  --popover: #1E233F;
+  --popover-foreground: #FFFFFF;
+  --primary: #0068FF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FB8B1E;
   --secondary-foreground: #FFFFFF;
-  --muted: #1A1A1A;
-  --muted-foreground: #666666;
-  --accent: #111111;
-  --accent-foreground: #00D09C;
-  --destructive: #FF3333;
+  --muted: #6B7280;
+  --muted-foreground: #9CA3AF;
+  --accent: #2A314D;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF433D;
   --destructive-foreground: #FFFFFF;
-  --border: #222222;
-  --input: #111111;
-  --ring: #00D09C;
-  --surface: #0A0A0A;
+  --border: #3A415A;
+  --input: #2A314D;
+  --ring: #0068FF;
+  --surface: #2A314D;
   --up: #00D09C;
-  --down: #FF3333;
-  --neutral: #888888;
+  --down: #FF433D;
+  --neutral: #FFA028;
 }
 
 @layer base {
@@ -142,7 +169,7 @@
 
   ::-webkit-scrollbar-thumb {
     background: var(--border);
-    border-radius: 0px;
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -155,32 +182,25 @@
     text-wrap: balance;
   }
 
+  /* Price Colors */
+  .price-up {
+    @apply text-[var(--up)];
+  }
+
+  .price-down {
+    @apply text-[var(--down)];
+  }
+
   /* Terminal Specific Utilities */
   .terminal-border {
-    @apply border border-border shadow-[0_0_0_1px_#000000];
+    @apply border border-border;
   }
 
   .terminal-glow {
-    box-shadow: 0 0 10px rgba(0, 208, 156, 0.05);
+    box-shadow: 0 0 10px rgba(0, 104, 255, 0.1);
   }
 
   .terminal-text {
     @apply font-mono text-xs uppercase tracking-wider text-muted-foreground;
-  }
-
-  .animate-marquee {
-    animation: marquee 30s linear infinite;
-    min-width: fit-content;
-  }
-}
-
-/* Custom Animation for Ticker */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
   }
 }
