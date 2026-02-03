@@ -3,8 +3,9 @@ export interface Alert {
     symbol: string;
     type: 'PRICE_ABOVE' | 'PRICE_BELOW' | 'PERCENT_CHANGE';
     targetValue: number;
-    isActive: boolean;
+    status: 'ACTIVE' | 'TRIGGERED' | 'CANCELLED';
     createdAt: string;
+    triggeredAt?: string;
 }
 
 export const MOCK_ALERTS: Alert[] = [
@@ -13,7 +14,7 @@ export const MOCK_ALERTS: Alert[] = [
         symbol: 'BTCUSDT',
         type: 'PRICE_ABOVE',
         targetValue: 45000,
-        isActive: true,
+        status: 'ACTIVE',
         createdAt: new Date().toISOString(),
     },
     {
@@ -21,7 +22,24 @@ export const MOCK_ALERTS: Alert[] = [
         symbol: 'ETHUSDT',
         type: 'PRICE_BELOW',
         targetValue: 2000,
-        isActive: true,
+        status: 'ACTIVE',
         createdAt: new Date().toISOString(),
+    },
+    {
+        id: 'alt_3',
+        symbol: 'SOLUSDT',
+        type: 'PERCENT_CHANGE',
+        targetValue: 5,
+        status: 'TRIGGERED',
+        createdAt: new Date(Date.now() - 86400000).toISOString(),
+        triggeredAt: new Date(Date.now() - 3600000).toISOString(),
+    },
+    {
+        id: 'alt_4',
+        symbol: 'TSLA',
+        type: 'PRICE_BELOW',
+        targetValue: 150,
+        status: 'CANCELLED',
+        createdAt: new Date(Date.now() - 172800000).toISOString(),
     },
 ];

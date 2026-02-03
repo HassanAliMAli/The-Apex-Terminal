@@ -6,14 +6,14 @@ import { ExternalLink } from 'lucide-react';
 
 export default function DashboardPage() {
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+        <div className="space-y-2">
+            <div className="flex items-center justify-between px-1">
+                <h2 className="text-lg font-bold tracking-tight font-mono text-muted-foreground uppercase">/ HOME / OVERVIEW</h2>
             </div>
 
             <QuickStats />
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
                 <MarketOverview />
 
                 {/* News Feed / Activity Widget */}
@@ -31,8 +31,8 @@ export default function DashboardPage() {
                                         <ExternalLink className="w-3 h-3 mt-0.5 opacity-50" />
                                     </a>
                                     <span className={`text-[10px] px-1.5 py-0.5 rounded w-fit ${news.sentiment === 'POSITIVE' ? 'bg-up/20 text-up' :
-                                            news.sentiment === 'NEGATIVE' ? 'bg-down/20 text-down' :
-                                                'bg-muted text-muted-foreground'
+                                        news.sentiment === 'NEGATIVE' ? 'bg-down/20 text-down' :
+                                            'bg-muted text-muted-foreground'
                                         }`}>
                                         {news.sentiment}
                                     </span>

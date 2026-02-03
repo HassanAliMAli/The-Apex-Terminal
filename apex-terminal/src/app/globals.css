@@ -20,7 +20,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  
+
   --color-surface: var(--surface);
   --color-up: var(--up);
   --color-down: var(--down);
@@ -28,86 +28,159 @@
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  
+
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: calc(var(--radius) - 1px);
   --radius-lg: var(--radius);
 }
 
 :root {
-  --background: #0A0E27;
-  --foreground: #FFFFFF;
-  
-  --card: #1E233F;
-  --card-foreground: #FFFFFF;
-  
-  --popover: #1E233F;
-  --popover-foreground: #FFFFFF;
-  
-  --primary: #0068FF;
-  --primary-foreground: #FFFFFF;
-  
-  --secondary: #FB8B1E;
+  /* Apex Terminal - "Void Black" Theme */
+  --background: #050505;
+  /* True Black */
+  --foreground: #F0F0F0;
+  /* Off-white for less eye strain on black */
+
+  --card: #0A0A0A;
+  /* Almost black */
+  --card-foreground: #F0F0F0;
+
+  --popover: #0A0A0A;
+  --popover-foreground: #F0F0F0;
+
+  --primary: #00D09C;
+  /* Matrix Green as primary */
+  --primary-foreground: #000000;
+
+  --secondary: #333333;
   --secondary-foreground: #FFFFFF;
-  
-  --muted: #6B7280;
-  --muted-foreground: #9CA3AF;
-  
-  --accent: #2A314D;
-  --accent-foreground: #FFFFFF;
-  
-  --destructive: #FF433D;
+
+  --muted: #1A1A1A;
+  --muted-foreground: #666666;
+  /* Darker grey for low priority */
+
+  --accent: #111111;
+  --accent-foreground: #00D09C;
+
+  --destructive: #FF3333;
   --destructive-foreground: #FFFFFF;
-  
-  --border: #3A415A;
-  --input: #2A314D;
-  --ring: #0068FF;
-  
-  --surface: #2A314D;
+
+  --border: #222222;
+  /* Very subtle borders */
+  --input: #111111;
+  --ring: #00D09C;
+
+  --surface: #0A0A0A;
   --up: #00D09C;
-  --down: #FF433D;
-  --neutral: #FFA028;
-  
-  --radius: 0.5rem;
-  
+  --down: #FF3333;
+  --neutral: #888888;
+
+  --radius: 0px;
+  /* Sharp edges */
+
   /* Fonts */
   --font-inter: 'Inter', sans-serif;
   --font-jetbrains-mono: 'JetBrains Mono', monospace;
 }
 
-/* Enforce dark theme values even if .dark class is missing, but map .dark too */
+/* Enforce dark theme values */
 .dark {
-  --background: #0A0E27;
-  --foreground: #FFFFFF;
-  --card: #1E233F;
-  --card-foreground: #FFFFFF;
-  --popover: #1E233F;
-  --popover-foreground: #FFFFFF;
-  --primary: #0068FF;
-  --primary-foreground: #FFFFFF;
-  --secondary: #FB8B1E;
+  --background: #050505;
+  --foreground: #F0F0F0;
+  --card: #0A0A0A;
+  --card-foreground: #F0F0F0;
+  --popover: #0A0A0A;
+  --popover-foreground: #F0F0F0;
+  --primary: #00D09C;
+  --primary-foreground: #000000;
+  --secondary: #333333;
   --secondary-foreground: #FFFFFF;
-  --muted: #6B7280;
-  --muted-foreground: #9CA3AF;
-  --accent: #2A314D;
-  --accent-foreground: #FFFFFF;
-  --destructive: #FF433D;
+  --muted: #1A1A1A;
+  --muted-foreground: #666666;
+  --accent: #111111;
+  --accent-foreground: #00D09C;
+  --destructive: #FF3333;
   --destructive-foreground: #FFFFFF;
-  --border: #3A415A;
-  --input: #2A314D;
-  --ring: #0068FF;
-  --surface: #2A314D;
+  --border: #222222;
+  --input: #111111;
+  --ring: #00D09C;
+  --surface: #0A0A0A;
   --up: #00D09C;
-  --down: #FF433D;
-  --neutral: #FFA028;
+  --down: #FF3333;
+  --neutral: #888888;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Global data styling */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-mono tracking-tight;
+  }
+
+  /* Scrollbar styling for Webkit */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 0px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Terminal Specific Utilities */
+  .terminal-border {
+    @apply border border-border shadow-[0_0_0_1px_#000000];
+  }
+
+  .terminal-glow {
+    box-shadow: 0 0 10px rgba(0, 208, 156, 0.05);
+  }
+
+  .terminal-text {
+    @apply font-mono text-xs uppercase tracking-wider text-muted-foreground;
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+    min-width: fit-content;
+  }
+}
+
+/* Custom Animation for Ticker */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }

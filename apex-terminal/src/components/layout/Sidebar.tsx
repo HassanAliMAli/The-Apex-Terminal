@@ -12,19 +12,20 @@ import {
     Settings,
     LogOut,
     Menu,
+    TerminalSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const NAV_ITEMS = [
-    { label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-    { label: 'Market & Charts', icon: LineChart, href: '/dashboard/charts' },
-    { label: 'Portfolio', icon: Wallet, href: '/dashboard/portfolio' },
-    { label: 'Watchlists', icon: LineChart, href: '/dashboard/watchlists' }, // Reusing icon for now
-    { label: 'News & Events', icon: Newspaper, href: '/dashboard/news' },
-    { label: 'Alerts', icon: Bell, href: '/dashboard/alerts' },
-    { label: 'Settings', icon: Settings, href: '/dashboard/settings' },
+    { label: 'DASHBOARD', icon: LayoutDashboard, href: '/dashboard' },
+    { label: 'MARKET', icon: LineChart, href: '/dashboard/charts' },
+    { label: 'PORTFOLIO', icon: Wallet, href: '/dashboard/portfolio' },
+    { label: 'WATCHLIST', icon: LineChart, href: '/dashboard/watchlists' },
+    { label: 'NEWS', icon: Newspaper, href: '/dashboard/news' },
+    { label: 'ALERTS', icon: Bell, href: '/dashboard/alerts' },
+    { label: 'SYSTEM', icon: Settings, href: '/dashboard/settings' },
 ];
 
 export const Sidebar = () => {
@@ -32,13 +33,15 @@ export const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const NavContent = () => (
-        <div className="flex flex-col h-full py-4 space-y-4 bg-sidebar border-r border-sidebar-border w-64">
-            <div className="px-6 py-2">
-                <h1 className="text-xl font-bold tracking-tighter text-sidebar-primary">
-                    APEX <span className="text-sidebar-foreground">TERMINAL</span>
+        <div className="flex flex-col h-full bg-black border-r border-[#333]">
+            <div className="h-14 flex items-center px-4 border-b border-[#333]">
+                <TerminalSquare className="w-5 h-5 text-primary mr-2" />
+                <h1 className="text-lg font-bold tracking-tight text-white font-mono">
+                    APEX<span className="text-primary">.TERM</span>
                 </h1>
             </div>
-            <nav className="flex-1 px-3 space-y-1">
+
+            <nav className="flex-1 py-4 space-y-0.5">
                 {NAV_ITEMS.map((item) => {
                     const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
                     const Icon = item.icon;
@@ -48,26 +51,36 @@ export const Sidebar = () => {
                             href={item.href}
                             onClick={() => setIsOpen(false)}
                             className={cn(
-                                'flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors',
+                                'flex items-center gap-3 px-4 py-3 text-xs font-bold tracking-widest transition-colors font-mono',
                                 isActive
-                                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                                    : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                                    ? 'bg-primary/10 text-primary border-r-2 border-primary'
+                                    : 'text-[#666] hover:text-white hover:bg-[#111]'
                             )}
                         >
-                            <Icon className="w-5 h-5" />
+                            <Icon className="w-4 h-4" />
                             {item.label}
                         </Link>
                     );
                 })}
             </nav>
-            <div className="px-3 py-2 border-t border-sidebar-border">
+
+            <div className="p-4 border-t border-[#333]">
                 <Button
                     variant="ghost"
-                    className="w-full justify-start gap-3 text-sidebar-foreground/70 hover:bg-destructive/10 hover:text-destructive"
+                    className="w-full justify-start gap-3 text-[#666] hover:text-destructive hover:bg-destructive/10 font-mono text-xs uppercase tracking-wider h-10 rounded-none"
                 >
-                    <LogOut className="w-5 h-5" />
-                    Logout
+                    <LogOut className="w-4 h-4" />
+                    Disconnect
                 </Button>
+            </div>
+
+            {/* System Status Footer */}
+            <div className="px-4 py-2 bg-[#050505] border-t border-[#333] flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_5px_#00D09C]" />
+                    <span className="text-[10px] text-[#444] font-mono">ONLINE</span>
+                </div>
+                <span className="text-[10px] text-[#444] font-mono">v1.0.5</span>
             </div>
         </div>
     );
@@ -75,18 +88,20 @@ export const Sidebar = () => {
     return (
         <>
             {/* Desktop Sidebar */}
-            <aside className="hidden md:flex h-screen flex-col border-r bg-sidebar">
+            <aside className="hidden md:flex flex-col w-56 h-screen fixed left-0 top-0 z-50">
                 <NavContent />
             </aside>
+            {/* Spacer for fixed sidebar */}
+            <div className="hidden md:block w-56 flex-shrink-0" />
 
             {/* Mobile Sidebar */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="md:hidden fixed top-3 left-3 z-50">
+                    <Button variant="ghost" size="icon" className="md:hidden fixed top-2 left-2 z-50 rounded-none bg-black/50 backdrop-blur border border-[#333]">
                         <Menu className="w-5 h-5" />
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="p-0 w-64 bg-sidebar border-sidebar-border">
+                <SheetContent side="left" className="p-0 w-64 border-r border-[#333] bg-black">
                     <NavContent />
                 </SheetContent>
             </Sheet>

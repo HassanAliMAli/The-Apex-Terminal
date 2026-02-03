@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
+import { MousePointer2, Crosshair, Minus, MousePointerClick, Type, Move, Search, Eraser } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function ChartsPage() {
     const [selectedSymbol, setSelectedSymbol] = useState(MOCK_TICKERS[0].symbol);
@@ -51,12 +53,48 @@ export default function ChartsPage() {
                     </div>
                 </div>
 
-                {/* Chart */}
-                <Card className="flex-1 bg-card border-border overflow-hidden p-2 relative">
-                    <div className="absolute inset-2">
-                        <CandlestickChart data={candles} height={600} />
+                {/* Chart Area with Drawing Toolbar */}
+                <div className="flex flex-1 gap-1 min-h-0">
+                    {/* Drawing Toolbar */}
+                    <div className="w-10 flex flex-col items-center gap-1 py-2 bg-card border border-border">
+                        {[
+                            { icon: MousePointer2, label: 'Cursor' },
+                            { icon: Crosshair, label: 'Crosshair' },
+                            { icon: Minus, label: 'Trend Line' },
+                            { icon: MousePointerClick, label: 'Fib Retracement' },
+                            { icon: Type, label: 'Text' },
+                            { icon: Move, label: 'Move' },
+                            { icon: Search, label: 'Zoom' },
+                            { icon: Eraser, label: 'Clear' },
+                        ].map((tool, i) => (
+                            <Button
+                                key={i}
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 rounded-none hover:bg-primary/10 hover:text-primary transition-colors"
+                            >
+                                <tool.icon className="h-4 w-4" />
+                            </Button>
+                        ))}
                     </div>
-                </Card>
+
+                    {/* Chart */}
+                    <Card className="flex-1 bg-card border-border overflow-hidden p-0 relative rounded-none">
+                        <div className="absolute inset-0">
+                            <CandlestickChart data={candles} height={600} />
+                        </div>
+                        {/* Mock Indicators Legend */}
+                        <div className="absolute top-2 left-2 flex flex-col gap-1 pointer-events-none z-10">
+                            <div className="text-[10px] font-mono text-primary bg-black/50 px-1 border border-primary/20 backdrop-blur">
+                                {selectedSymbol} • {timeframe} • CBOE
+                            </div>
+                            <div className="flex gap-2 text-[10px] font-mono">
+                                <span className="text-[#2962FF]">MA(9): {ticker.price.toFixed(2)}</span>
+                                <span className="text-[#B71C1C]">MA(20): {(ticker.price * 0.98).toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </Card>
+                </div>
             </div>
 
             {/* Side Panel (Order Entry) */}
